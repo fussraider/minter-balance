@@ -48,6 +48,6 @@ API ноды, например
 
 ---
 
-О багах, пожеланиях или недочетах - пишите мне в телеграм `@fussraider`.
+О багах, пожеланиях или недочетах - пишите мне в телеграм `@fussraider` или в issue.
 
 Donate: [Mx8e6c210b6f310ce8e38024838becca67cb52a428](https://minterscan.net/address/Mx8e6c210b6f310ce8e38024838becca67cb52a428)
