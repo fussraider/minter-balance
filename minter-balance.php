@@ -5,10 +5,10 @@
  * Plugin URI:  https://github.com/fussraider/minter-balance
  * Author URI:  https://fussraider.ru
  * Author:      Constantine A
- * Version:     0.1
+ * Version:     0.1a
  *
  * License:     MIT
- * License URI: https://opensource.org/licenses/MIT
+ * License URI: https://raw.githubusercontent.com/fussraider/minter-balance/master/LICENSE
  *
  */
 
