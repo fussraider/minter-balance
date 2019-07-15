@@ -12,7 +12,7 @@
  * Plugin URI:  https://github.com/fussraider/minter-balance
  * Author URI:  https://fussraider.ru
  * Author:      Constantine Avdeev
- * Version:     0.2
+ * Version:     0.3
  * License:     MIT
  * License URI: https://raw.githubusercontent.com/fussraider/minter-balance/master/LICENSE
  */
