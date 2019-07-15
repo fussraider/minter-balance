@@ -46,6 +46,6 @@ License URI: https://raw.githubusercontent.com/fussraider/minter-balance/master/
     `[minter-balance address="Mx8e6c210b6f310ce8e38024838becca67cb52a428" round="0"]`
 
 3. Виджет `Minter Balance Widget` выводит баланс всех монет на указанном в настройках адресе.
-4. Виджет `Minter Balance Single Widget` выводит баланс одной монеты на адресе, по указанным данным в настрйоках виджета
+4. Виджет `Minter Balance Single Widget` выводит баланс одной монеты на адресе, по указанным данным в настройках виджета
 
 В каждом экземпляре виджета можно указать индивидуальные параметры, в т.ч. параметр округления
