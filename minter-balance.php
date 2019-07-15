@@ -22,47 +22,17 @@ use Minter\MinterAPI;
 require "vendor/autoload.php";
 
 function minter_balance_value_shortcode($atts, $content, $tag){
-    $minter_options = get_option('minter_balance'); // node_url AND cache_expire params
     $result = 0;
-
-    if(!isset($minter_api) || !is_object($minter_api)){
-        $minter_api = new Minter\MinterAPI($minter_options['node_url']);
-    }
-
     $atts = shortcode_atts([
         'address' => 'Mx8e6c210b6f310ce8e38024838becca67cb52a428',
         'coin' => 'BIP',
         'round' => -1
     ], $atts);
 
-    $atts['coin'] = mb_strtoupper($atts['coin']);
+    $result =  minter_get_address_balance_single($atts['address'], $atts['coin']);
 
-    $cache = get_option('minter_balance_' . $atts['address'] . '_' . $atts['coin']);
-
-    if($cache && isset($cache['timestamp']) && isset($cache['value'])
-        && $cache['timestamp'] > time() + (int) $minter_options['cache_expire']){
-        $cache = maybe_unserialize($cache);
-        return $cache['value'];
-    }
-    else {
-        try {
-            $balance = $minter_api->getBalance($atts['address']);
-            $result = $balance->result->balance->{$atts['coin']};
-            $result = \Minter\SDK\MinterConverter::convertValue($result, 'bip');
-            if ($result > 0) {
-                if ($atts['round'] >= 0) {
-                    $result = round((float)$result, $atts['round']);
-                }
-            }
-
-            update_option('minter_balance_' . $atts['address'] . '_' . $atts['coin'], maybe_serialize([
-                'timestamp' => time(),
-                'value' => $result
-            ]));
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
-            //handle
-        }
-    }
+    if ($result > 0)
+        $result = minter_round_result($result, $atts['round']);
 
     return $result;
 }
