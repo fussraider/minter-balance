@@ -1,5 +1,8 @@
 
 <?php
+
+global $minter_api;
+
 /**
  * Создаем страницу настроек плагина
  */
@@ -7,6 +10,7 @@ add_action('admin_menu', 'add_plugin_page');
 function add_plugin_page(){
     add_options_page( 'Настройки Minter Balance', 'Minter Balance', 'manage_options', 'minter_balance_options', 'minter_balance_options_page_output' );
 }
+
 
 function minter_balance_options_page_output(){
     ?>
@@ -68,4 +72,101 @@ function sanitize_callback( $options ){
     }
 
     return $options;
+}
+
+function minter_round_result($val, $round_to){
+    if ($round_to >= 0)
+        return  round((float)$val, $round_to);
+    else
+        return $val;
+}
+
+function minter_get_plugin_options(){
+    return get_option('minter_balance'); // node_url AND cache_expire params
+}
+
+function minter_node_url(){
+    $options = minter_get_plugin_options();
+    return $options['node_url'];
+}
+
+function minter_cache_expire(){
+    $options = minter_get_plugin_options();
+    return (int)$options['cache_expire'];
+}
+
+function minter_api(){
+    global $minter_api;
+    if(!isset($minter_api) || !is_object($minter_api)){
+        $minter_api = new Minter\MinterAPI(minter_node_url());
+    }
+
+    return $minter_api;
+}
+
+function minter_get_address_balance($address){
+    $cache_key = 'minter_balance_' . $address;
+    $cache = get_option($cache_key);
+    $result = [];
+
+    if($cache && isset($cache['timestamp']) && isset($cache['value']) && $cache['timestamp'] > time() + minter_cache_expire()){
+        $cache = maybe_unserialize($cache);
+        $result = $cache['value'];
+    } else {
+        try {
+            $balance = minter_api()->getBalance($address);
+            $balance = $balance->result->balance;
+
+            foreach($balance as $ticker => $value){
+                $result[$ticker] = \Minter\SDK\MinterConverter::convertValue($value, 'bip');
+            }
+
+            update_option($cache_key, maybe_serialize([
+                'timestamp' => time(),
+                'value' => $result
+            ]));
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            if ($cache && isset($cache['value'])) {
+                $result = $cache['value'];
+            }
+        }
+    }
+
+    return $result;
+}
+
+function minter_get_address_balance_single($address, $ticker){
+    $ticker = mb_strtoupper($ticker);
+    $cache_key = 'minter_balance_' . $address . '_' . $ticker;
+    $cache = get_option($cache_key);
+    $result = 0;
+
+    if($cache && isset($cache['timestamp']) && isset($cache['value']) && $cache['timestamp'] > time() + minter_cache_expire()){
+        $cache = maybe_unserialize($cache);
+        $result = $cache['value'];
+    } else {
+        try {
+            $balance = minter_api()->getBalance($address);
+            $balance = $balance->result->balance->{$ticker};
+            $balance = $balance ? $balance : 0;
+            $result = \Minter\SDK\MinterConverter::convertValue($balance, 'bip');
+
+            update_option($cache_key, maybe_serialize([
+                'timestamp' => time(),
+                'value' => $result
+            ]));
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            if ($cache && isset($cache['value'])) {
+                $result = $cache['value'];
+            }
+        }
+    }
+
+    return $result;
+}
+
+function dump($data){
+    echo '<pre>';
+    var_dump($data);
+    echo '</pre>';
 }

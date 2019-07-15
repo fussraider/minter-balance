@@ -12,7 +12,9 @@
     },
     "autoload": {
         "files": [
-            "functions.php"
+            "functions.php",
+            "widgets/BalanceWidget.php",
+            "widgets/BalanceSingleWidget.php"
         ]
     }
 }
