@@ -9,7 +9,7 @@ Stable tag:
 License: MIT
 License URI: https://raw.githubusercontent.com/fussraider/minter-balance/master/LICENSE
 
-Плагин добавляет 2 шорткода в WordPress, позволяющие выводить баланс кошелька сети Minter в определенной монете с возможностью кеширования
+Плагин добавляет 2 шорткода и 2 виджета в WordPress, позволяющие выводить баланс кошелька сети Minter, в т.ч. в определенной монете с возможностью кеширования
 
 == Description ==
 
@@ -44,3 +44,8 @@ License URI: https://raw.githubusercontent.com/fussraider/minter-balance/master/
     `[minter-balance address="Mx8e6c210b6f310ce8e38024838becca67cb52a428" coin="KARMA"]`
     `[minter-balance address="Mx8e6c210b6f310ce8e38024838becca67cb52a428" coin="BIP" round="4"]`
     `[minter-balance address="Mx8e6c210b6f310ce8e38024838becca67cb52a428" round="0"]`
+
+3. Виджет Minter Balance Widget выводит баланс всех монет на указанном в настрйоках адресе.
+4. Виджет Minter Balance Single Widget выводит баланс в указанной в настрйоках монете
+
+В каждом экземпляре виджета можно указать индивидуальные параметры, в т.ч. параметр округления
