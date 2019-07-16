@@ -13,8 +13,8 @@
     "autoload": {
         "files": [
             "functions.php",
-            "widgets/BalanceWidget.php",
-            "widgets/BalanceSingleWidget.php"
+            "widgets/MinterBalanceWidget.php",
+            "widgets/MinterBalanceSingleWidget.php"
         ]
     }
 }

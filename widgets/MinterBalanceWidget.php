@@ -1,6 +1,6 @@
 <?php
 
-class BalanceWidget extends WP_Widget
+class MinterBalanceWidget extends WP_Widget
 {
     function __construct() {
         parent::__construct(
@@ -20,12 +20,12 @@ class BalanceWidget extends WP_Widget
         if ( ! empty( $title ) )
             echo $args['before_title'] . $title . $args['after_title'];
         //output
-        $balance = minter_get_address_balance($address);
+        $balance = minter_balance_get_address_balance($address);
         if($balance) {
             echo '<ul class="minter-balance-full-block">';
             foreach ($balance as $ticker => $value){ ?>
                 <li class="minter-balance-full-row">
-                    <span class="minter-balance-full-value"><?php echo minter_round_result($value, $round); ?></span>
+                    <span class="minter-balance-full-value"><?php echo minter_balance_round_result($value, $round); ?></span>
                     <span class="minter-balance-full-ticker"><?php echo $ticker; ?></span>
                 </li>
             <?php }
@@ -67,6 +67,6 @@ class BalanceWidget extends WP_Widget
 
 
 function minter_balance_register_widget() {
-    register_widget('BalanceWidget');
+    register_widget('MinterBalanceWidget');
 }
 add_action('widgets_init', 'minter_balance_register_widget');

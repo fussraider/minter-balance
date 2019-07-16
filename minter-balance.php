@@ -12,7 +12,7 @@
  * Plugin URI:  https://github.com/fussraider/minter-balance
  * Author URI:  https://fussraider.ru
  * Author:      Constantine Avdeev
- * Version:     0.3
+ * Version:     0.5
  * License:     MIT
  * License URI: https://raw.githubusercontent.com/fussraider/minter-balance/master/LICENSE
  */
@@ -29,10 +29,10 @@ function minter_balance_value_shortcode($atts, $content, $tag){
         'round' => -1
     ], $atts);
 
-    $result =  minter_get_address_balance_single($atts['address'], $atts['coin']);
+    $result =  minter_balance_get_address_balance_single($atts['address'], $atts['coin']);
 
     if ($result > 0)
-        $result = minter_round_result($result, $atts['round']);
+        $result = minter_balance_round_result($result, $atts['round']);
 
     return $result;
 }
